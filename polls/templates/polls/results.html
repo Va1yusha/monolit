@@ -1,0 +1,31 @@
+{% extends 'polls/layout.html' %}
+
+{% block title %}Результаты{% endblock %}
+
+{% block header %}
+<header class="header">
+    <h1><a href="{% url 'polls:index' %}">Главная</a></h1>
+    <nav class="header-links">
+        <a href="{% url 'polls:create_question' %}">Добавить новость</a>
+        <a href="{% url 'polls:profile' %}" class="trigger-burger-menu">Профиль</a>
+        <nav class="burger-menu">
+            <a href="{% url 'polls:edit_profile' %}">Редактировать</a>
+            <a href="{% url 'polls:logout' %}">Выйти</a>
+        </nav>
+    </nav>
+</header>
+{% endblock %}
+
+{% block main %}
+<main class="main-bg">
+    <div class="block-result">
+        <h1>Результаты: {{ question.question_text }}</h1>
+        <ul>
+            {% for choice in question.choice_set.all %}
+            <li>{{ choice.choice_text }}: {{ choice.votes }} голосов</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'polls:index' %}">Назад к вопросам</a>
+    </div>
+</main>
+{% endblock %}

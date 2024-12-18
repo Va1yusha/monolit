@@ -1,0 +1,48 @@
+{% extends 'polls/layout.html' %}
+
+{% block title %}Вопрос{% endblock %}
+
+{% block header %}
+<header class="header">
+    <h1><a href="{% url 'polls:index' %}">Главная</a></h1>
+    <nav class="header-links">
+        <a href="{% url 'polls:create_question' %}">Добавить новость</a>
+        <a href="{% url 'polls:profile' %}" class="trigger-burger-menu">Профиль</a>
+        <nav class="burger-menu">
+            <a href="{% url 'polls:edit_profile' %}">Редактировать</a>
+            <a href="{% url 'polls:logout' %}">Выйти</a>
+        </nav>
+    </nav>
+</header>
+{% endblock %}
+
+{% block main %}
+<main class="main-bg">
+    <div class="block-detail">
+        <h1>{{ question.question_text }}</h1>
+
+        {% if question.image %}
+        <img src="{{ question.image.url }}" alt="Question Image" style="max-width: 500px; height: auto;">
+        {% endif %}
+
+        <h2>Выберите один из вариантов:</h2>
+        <form action="{% url 'polls:vote' question.pk %}" method="post">
+            {% csrf_token %}
+            {% if error_message %}
+                <p style="color: red; font-weight: bold;">{{ error_message }}</p>
+            {% endif %}
+            {% for choice in question.choice_set.all %}
+            <div>
+                <input type="radio" id="choice{{ forloop.counter }}" name="choice" value="{{ choice.id }}">
+                <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+            </div>
+            {% endfor %}
+            <div class="block-detail-but">
+                <button type="submit">Голосовать</button>
+                <a href="{% url 'polls:index' %}">Назад к вопросам</a>
+            </div>
+        </form>
+
+    </div>
+</main>
+{% endblock %}

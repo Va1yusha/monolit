@@ -1,0 +1,32 @@
+{% extends 'polls/layout.html' %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+
+{% block main %}
+{% csrf_token %}
+<div class="block-register">
+    <h1>Регистрация</h1>
+
+    {% if messages %}
+    {% csrf_token %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="block-register-but">
+            <button type="submit">Зарегистрироваться</button>
+            <a href="{% url 'polls:login' %}"> Войти </a>
+        </div>
+    </form>
+</div>
+{% endblock %} 

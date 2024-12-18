@@ -1,0 +1,27 @@
+{% extends 'polls/layout.html' %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block main %}
+<div class="block-main">
+    <h1>Вход</h1>
+
+    {% if messages %}
+    {% csrf_token %}
+    <ul class="messages">
+        {% for message in messages %}
+        <p>Не верный логин пользователя или пароль</p>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="post" class="block-login"> 
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="block-login-reg">
+        <button type="submit">Войти</button>
+        <a href="{% url 'polls:register' %}" class="but-"> Регистрация </a>
+    </div>
+    </form>
+</div>
+{% endblock %}
